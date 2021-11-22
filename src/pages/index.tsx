@@ -4,28 +4,9 @@ import tw, { styled, TwStyle } from 'twin.macro';
 
 import Layout from '@/components/Layout';
 
-const Container = styled.div`
-  ${tw`absolute inset-0 w-full h-screen flex flex-col justify-center items-center`}
-`;
+export const getServerSideProps = ({ query }) => ({ props: query });
 
-const Title = styled.h1`
-  ${tw`text-4xl sm:text-5xl font-semibold tracking-wide mb-12`}
-`;
-
-const linkStyles: Record<string, TwStyle> = {
-  red: tw`text-red-500 hover:text-red-700`,
-  yellow: tw`text-yellow-500 hover:text-yellow-700`,
-  green: tw`text-green-500 hover:text-green-700`,
-  blue: tw`text-blue-500 hover:text-blue-700`,
-  indigo: tw`text-indigo-500 hover:text-indigo-700`,
-  purple: tw`text-purple-500 hover:text-purple-700`
-};
-const Link = styled.a(({ color }) => [
-  tw`block md:inline font-semibold transition-colors duration-300`,
-  color && linkStyles[color]
-]);
-
-const IndexPage: NextPage = () => {
+const IndexPage: NextPage = ({ country }) => {
   const [title, setTitle] = useState('Querying...');
 
   useEffect(() => {
@@ -40,7 +21,9 @@ const IndexPage: NextPage = () => {
   return (
     <Layout title="Home | Next.js + TypeScript Example">
       <Container>
-        <Title>{title}</Title>
+        <Title>
+          {title} from {country}
+        </Title>
         <div tw="text-xl space-y-4 md:space-x-4">
           <span>Learn</span>
           <Link color="red" href="https://reactjs.org/">
@@ -66,5 +49,27 @@ const IndexPage: NextPage = () => {
     </Layout>
   );
 };
+
+const Container = styled.div`
+  ${tw`absolute inset-0 w-full h-screen flex flex-col justify-center items-center`}
+`;
+
+const Title = styled.h1`
+  ${tw`text-3xl sm:text-4xl font-semibold tracking-wide mb-12`}
+`;
+
+const linkStyles: Record<string, TwStyle> = {
+  red: tw`text-red-500 hover:text-red-700`,
+  yellow: tw`text-yellow-500 hover:text-yellow-700`,
+  green: tw`text-green-500 hover:text-green-700`,
+  blue: tw`text-blue-500 hover:text-blue-700`,
+  indigo: tw`text-indigo-500 hover:text-indigo-700`,
+  purple: tw`text-purple-500 hover:text-purple-700`
+};
+
+const Link = styled.a(({ color }) => [
+  tw`block md:inline font-semibold transition-colors duration-300`,
+  color && linkStyles[color]
+]);
 
 export default IndexPage;
